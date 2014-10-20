@@ -1,0 +1,2 @@
+cat worldcup.txt | sed ' s/[\{\}\|\(\)]//g; s/fb//g; s/style=\"background:#fff68f\"//g; s/<sup>//g; s/<\/sup>//g;s/\[\[#[0-9].\]\]//g;s/style=white-space:nowrap//g; s/FIFA//g' | awk -F'[, \[]' 'BEGIN { r = 0;} /[A-Z][A-Z][A-Z]/ {c = $1;} /[0-9] \[\[([0-9][0-9][0-9][0-9])*/ { if (r == 4) r = 1; else r = r + 1; if (length($4) != 0) print c, $4, r; if (length($11) != 0) print c, $11, r; if (length($18) != 0) print c, $18, r; if (length($25) != 0) print c, $25, r; if (length($32) != 0) print c, $32, r;}'
+
