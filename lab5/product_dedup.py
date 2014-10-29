@@ -51,6 +51,19 @@ def customComparator(field_1, field_2) :
     else :
         return nan
 
+def gbp_to_us(field):
+	if "gbp" in field:
+		gbpd = field.replace('gbp', '')
+		return float(gbpd.strip()) * 1.61
+	else:
+		return float(field.strip())
+
+def priceComp(p1, p2) :
+	if p1 and p2:
+		return abs(gbp_to_us(p1) - gbp_to_us(p2))
+	else :
+		return nan;
+
 def preProcess(column):
     """
     Do a little bit of data cleaning with the help of Unidecode and Regex.
@@ -96,7 +109,8 @@ else:
     # to be used and specify any customComparators. Please read the dedupe manual for details
     fields = [
         {'field' : 'title', 'type': 'String'},
-        {'field' : 'price', 'type': 'Custom', 'has missing':True, 'comparator' : customComparator}
+        {'field' : 'price', 'type': 'Custom', 'has missing':True, 'comparator' : priceComp},
+		{'field' : 'manufacturer', 'type' : 'String', 'has missing' : True}
         ]
 
     # Create a new deduper object and pass our data model to it.
